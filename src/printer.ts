@@ -56,8 +56,12 @@ export function formatToLatex(input: string): string {
 
     // 3. Handle Greek letters
     symbols.sort((a, b) => b.length - a.length);
+
     symbols.forEach(sym => {
-        const regex = new RegExp(`\\b${sym}\\b`, 'g');
+        // Zmieniamy drugie \\b na (?![a-zA-Z])
+        // Oznacza to: dopasuj, jeśli po symbolu NIE występuje litera a-z lub A-Z
+        const regex = new RegExp(`\\b${sym}(?![a-zA-Z])`, 'g');
+        
         processed = processed.replace(regex, `\\${sym}`);
     });
 
